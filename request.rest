@@ -1,3 +1,20 @@
+### Getting a Books with Authors
+POST http://localhost:5000/graphql? HTTP/1.1
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+query {
+    books {
+        name
+        authorId
+        authors {
+            id
+            name
+        }
+    }
+}
+
+### Getting a Authors with Books
 POST http://localhost:5000/graphql? HTTP/1.1
 Content-Type: application/json
 X-Request-Type: GraphQL
@@ -11,7 +28,27 @@ query {
     }
 }
 
-###
+### Get a Single Book and its Author
+
+POST http://localhost:5000/graphql? HTTP/1.1
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+query ($id: Int!) {
+  book(id: $id) {
+      name,
+      authors {
+          id
+          name
+      }
+  }
+}
+
+{
+    "id": 1
+}
+
+### Get a Single Author and its Books
 
 POST http://localhost:5000/graphql? HTTP/1.1
 Content-Type: application/json
@@ -21,6 +58,7 @@ query ($id: Int!) {
   author(id: $id) {
       name,
       books {
+          id
           name
       }
   }
@@ -29,3 +67,40 @@ query ($id: Int!) {
 {
     "id": 1
 }
+
+### Add a Book
+
+POST http://localhost:5000/graphql? HTTP/1.1
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ($name: String!, $authorId: Int!){
+  addBook(name: $name, authorId: $authorId) {
+    id
+    name
+  }
+}
+
+
+{
+    "name": "New Name 4", "authorId": 3
+}
+
+### Add an Author
+
+POST http://localhost:5000/graphql? HTTP/1.1
+Content-Type: application/json
+X-Request-Type: GraphQL
+
+mutation ($name: String!){
+  addAuthor(name: $name) {
+    id
+    name
+  }
+}
+
+
+{
+    "name": "Dennis James"
+}
+
